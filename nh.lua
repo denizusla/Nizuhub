@@ -14,15 +14,14 @@ local platformEnabled = false
 local flyingPlatform
 local guiVisible = true
 
--- Criar GUI
+-- Criar GUI principal
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "NizuHub"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = player:WaitForChild("PlayerGui")
 
--- Frame principal
 local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 180, 0, 280)
+Frame.Size = UDim2.new(0, 180, 0, 240)
 Frame.Position = UDim2.new(0.05, 0, 0.2, 0)
 Frame.BackgroundColor3 = Color3.fromRGB(30, 60, 120)
 Frame.BorderSizePixel = 0
@@ -32,22 +31,11 @@ local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(0, 12)
 corner.Parent = Frame
 
--- Título do Hub
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1,0,0,30)
-title.Position = UDim2.new(0,0,0,0)
-title.BackgroundTransparency = 1
-title.TextColor3 = Color3.fromRGB(255,255,255)
-title.Font = Enum.Font.GothamBold
-title.TextSize = 16
-title.Text = "Nizu Hub v1.1"
-title.Parent = Frame
-
 -- Função para criar botões
 local function criarBotao(texto, ordem)
     local botao = Instance.new("TextButton")
     botao.Size = UDim2.new(1, -20, 0, 40)
-    botao.Position = UDim2.new(0, 10, 0, (ordem - 1) * 50 + 40)
+    botao.Position = UDim2.new(0, 10, 0, (ordem - 1) * 50 + 10)
     botao.BackgroundColor3 = Color3.fromRGB(50, 100, 200)
     botao.TextColor3 = Color3.fromRGB(255, 255, 255)
     botao.Font = Enum.Font.GothamBold
@@ -62,14 +50,13 @@ local function criarBotao(texto, ordem)
     return botao
 end
 
--- Criar botões
+-- Criar botões da GUI
 local noclipBtn = criarBotao("NoclipCam (OFF)", 1)
 local platformBtn = criarBotao("Plataforma (OFF)", 2)
-local guiToggleBtn = criarBotao("Mostrar/Esconder GUI", 3)
-local soonBtn1 = criarBotao("Em breve...", 4)
-local soonBtn2 = criarBotao("Em breve...", 5)
+local soonBtn1 = criarBotao("Em breve...", 3)
+local soonBtn2 = criarBotao("Em breve...", 4)
 
--- Noclip
+-- Botões da lógica
 noclipBtn.MouseButton1Click:Connect(function()
     noclipEnabled = not noclipEnabled
     noclipBtn.Text = noclipEnabled and "NoclipCam (ON)" or "NoclipCam (OFF)"
@@ -85,7 +72,6 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- Plataforma
 platformBtn.MouseButton1Click:Connect(function()
     platformEnabled = not platformEnabled
     platformBtn.Text = platformEnabled and "Plataforma (ON)" or "Plataforma (OFF)"
@@ -115,12 +101,6 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
--- Botão para mostrar/esconder GUI
-guiToggleBtn.MouseButton1Click:Connect(function()
-    guiVisible = not guiVisible
-    Frame.Visible = guiVisible
-end)
-
 -- Mensagem de confirmação
 local successMsg = Instance.new("TextLabel")
 successMsg.Size = UDim2.new(1, 0, 0, 30)
@@ -131,3 +111,23 @@ successMsg.Font = Enum.Font.Gotham
 successMsg.TextSize = 12
 successMsg.Text = "✅ Nizu Hub carregado com sucesso!"
 successMsg.Parent = Frame
+
+-- Botão separado para mostrar/esconder GUI
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 120, 0, 40)
+toggleButton.Position = UDim2.new(0, 10, 0.1, 0)
+toggleButton.BackgroundColor3 = Color3.fromRGB(40, 80, 160)
+toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleButton.Font = Enum.Font.GothamBold
+toggleButton.TextSize = 14
+toggleButton.Text = "Nizu Hub v1.1"
+toggleButton.Parent = player:WaitForChild("PlayerGui")
+
+local corner2 = Instance.new("UICorner")
+corner2.CornerRadius = UDim.new(0, 12)
+corner2.Parent = toggleButton
+
+toggleButton.MouseButton1Click:Connect(function()
+    guiVisible = not guiVisible
+    Frame.Visible = guiVisible
+end)
